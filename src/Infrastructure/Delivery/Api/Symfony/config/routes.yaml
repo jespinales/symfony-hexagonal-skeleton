@@ -1,3 +1,5 @@
-index:
-    path: /
-    controller: App\Infrastructure\Delivery\Api\Symfony\Controller\DefaultController::index
+user:
+    resource: 'routes/user.yaml'
+    prefix: '/user'
+    name_prefix: 'user_'
+    trailing_slash_on_root: false

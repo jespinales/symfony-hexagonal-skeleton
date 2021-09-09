@@ -1,0 +1,16 @@
+register:
+  path: /
+  controller: App\Infrastructure\Delivery\Api\Symfony\Controller\User\RegisterUserController
+  methods: POST
+
+list:
+  path: /
+  controller: App\Infrastructure\Delivery\Api\Symfony\Controller\User\ShowUsersController
+  methods: GET
+
+delete:
+  path: /{id}
+  controller: App\Infrastructure\Delivery\Api\Symfony\Controller\User\DeleteUserController
+  methods: GET
+  requirements:
+    id: '\b[0-9a-f]{8}\b-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-\b[0-9a-f]{12}\b'

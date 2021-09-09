@@ -1,0 +1,17 @@
+services:
+  # Databases
+  Doctrine\ORM\EntityManager:
+    factory: [ App\Infrastructure\Persistence\Doctrine\EntityManagerFactory, build ]
+    arguments:
+      - driver: '%env(DATABASE_DRIVER)%'
+        host: '%env(DATABASE_HOST)%'
+        port: '%env(DATABASE_PORT)%'
+        dbname: '%env(DATABASE_NAME)%'
+        user: '%env(DATABASE_USER)%'
+        password: '%env(DATABASE_PASSWORD)%'
+      - '%env(APP_ENV)%'
+    tags:
+      - { name: 'db_connection' }
+    public: true
+
+  App\Domain\User\IUserRepository: '@App\Infrastructure\Model\User\Doctrine\DoctrineUserRepository'
