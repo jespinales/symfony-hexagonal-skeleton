@@ -6,7 +6,7 @@ use App\Domain\User\User;
 
 class ShowUsersResponse
 {
-    private array $users;
+    private array $users = [];
 
     /**
      * @param User[] $users
@@ -22,7 +22,7 @@ class ShowUsersResponse
         }
     }
 
-    public function getUsers(): array
+    public function users(): array
     {
         return $this->users;
     }

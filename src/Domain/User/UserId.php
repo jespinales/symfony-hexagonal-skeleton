@@ -2,8 +2,6 @@
 
 namespace App\Domain\User;
 
-use App\Domain\Shared\ValueObjects\Exceptions\InvalidArgumentException;
-use App\Domain\Shared\ValueObjects\Exceptions\StringLengthException;
 
 class UserId
 {
@@ -38,11 +36,24 @@ class UserId
     public function validate(string $id = null)
     {
         if(strlen($id) > self::MAX_LENGTH){
-            throw new StringLengthException(self::ATTRIBUTE, self::MAX_LENGTH);
+            throw new \InvalidArgumentException(
+                printf(
+                    'The %s entered exceeds the length of %n',
+                    self::ATTRIBUTE,
+                    self::MAX_LENGTH
+                ),
+                422
+            );
         }
 
         if( !preg_match('/\b[0-9a-f]{8}\b-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-\b[0-9a-f]{12}\b/', $id) ){
-            throw new InvalidArgumentException(self::ATTRIBUTE);
+            throw new \InvalidArgumentException(
+                printf(
+                    'The %s entered is invalid',
+                    self::ATTRIBUTE
+                ),
+                422
+            );
         }
     }
 }

@@ -12,7 +12,7 @@ class DeleteUserService
         $this->userRepository = $userRepository;
     }
 
-    public function execute(DeleteUserRequest $request)
+    public function execute(DeleteUserRequest $request): void
     {
         $id = new UserId($request->id());
 

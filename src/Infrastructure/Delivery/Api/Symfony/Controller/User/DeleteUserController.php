@@ -33,7 +33,7 @@ class DeleteUserController extends AbstractController
         } catch (\Throwable $e) {
             return $this->json([
                 'message' => $e->getMessage(),
-            ], $e->getCode()?:400);
+            ], $e->getCode()?:500);
         }
     }
 }

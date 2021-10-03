@@ -2,7 +2,6 @@
 
 namespace App\Domain\User;
 
-use App\Domain\Shared\ValueObjects\Exceptions\StringLengthException;
 
 class UserName
 {
@@ -30,8 +29,15 @@ class UserName
 
     private function validate(string $name)
     {
-        if(strlen($name) > 50){
-            throw new StringLengthException(self::ATTRIBUTE, self::MAX_LENGTH);
+        if(strlen($name) > self::MAX_LENGTH){
+            throw new \InvalidArgumentException(
+                printf(
+                    'The %s entered exceeds the length of %n',
+                    self::ATTRIBUTE,
+                    self::MAX_LENGTH
+                ),
+                422
+            );
         }
     }
 

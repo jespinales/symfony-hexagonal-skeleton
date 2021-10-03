@@ -14,16 +14,16 @@ services:
     # makes classes in src/ available to be used as services
     # this creates a service per class whose id is the fully-qualified class name
 
-    App\Infrastructure\Model\:
-        resource: '../../../../../../src/Infrastructure/Model/'
+    application_services:
+        namespace: App\Application\
+        resource: '../../../../../../src/Application/**/*Service.php'
+        tags: [application_service]
         public: true
 
-    App\Application\:
-        resource: '../../../../../../src/Application/'
-        exclude:
-            - '../../../../../../src/Application/**/*Request.php'
-            - '../../../../../../src/Application/**/*Response.php'
-        public: true
+    domain_repositories:
+        namespace: App\Domain\
+        resource: '../../../../../../src/Domain/**/*Repository.php'
+        tags: [domain_repositorie]
 
     # controllers are imported separately to make sure services can be injected
     # as action arguments even if you don't extend any base controller class
@@ -35,4 +35,5 @@ services:
     # please note that last definitions always *replace* previous ones
 
 imports:
-  - { resource: database/ }
+  #- { resource: database/Doctrine/ }
+  - { resource: database/InMemory/ }

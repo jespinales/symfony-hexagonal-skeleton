@@ -9,26 +9,16 @@ class ShowUsersService
 {
     private IUserRepository $userRepository;
 
-    private IUserCollectionDataTransformer $userCollectionDataTransformer;
-
-    public function __construct(
-        IUserRepository $userRepository,
-        IUserCollectionDataTransformer $userCollectionDataTransformer)
+    public function __construct(IUserRepository $userRepository)
     {
         $this->userRepository = $userRepository;
-        $this->userCollectionDataTransformer = $userCollectionDataTransformer;
     }
 
-    public function execute(): void
+    public function execute(): ShowUsersResponse
     {
         $users = $this->userRepository->getAll();
 
-        $this->userCollectionDataTransformer->write($users);
-    }
-
-    public function userCollectionDataTransformer(): IUserCollectionDataTransformer
-    {
-        return $this->userCollectionDataTransformer;
+        return new ShowUsersResponse($users);
     }
 
 }

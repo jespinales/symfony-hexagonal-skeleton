@@ -1,5 +1,10 @@
 services:
-  # Databases
+  # Database
+  infrastructure_repositories:
+    namespace: App\Infrastructure\Model\
+    resource: '../../../../../../../../src/Infrastructure/Model/**/Doctrine/*Repository.php'
+    tags: [ infrastructure_repository ]
+
   Doctrine\ORM\EntityManager:
     factory: [ App\Infrastructure\Persistence\Doctrine\EntityManagerFactory, build ]
     arguments:
@@ -14,4 +19,6 @@ services:
       - { name: 'db_connection' }
     public: true
 
-  App\Domain\User\IUserRepository: '@App\Infrastructure\Model\User\Doctrine\DoctrineUserRepository'
+  App\Domain\User\IUserRepository:
+    alias: 'App\Infrastructure\Model\User\InMemory\DoctrineUserRepository'
+    public: true

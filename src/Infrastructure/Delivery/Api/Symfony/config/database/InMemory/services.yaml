@@ -1,0 +1,10 @@
+services:
+  # Database
+  infrastructure_repositories:
+    namespace: App\Infrastructure\Model\
+    resource: '../../../../../../../../src/Infrastructure/Model/**/InMemory/*Repository.php'
+    tags: [ infrastructure_repository ]
+
+  App\Domain\User\IUserRepository:
+    alias: 'App\Infrastructure\Model\User\InMemory\InMemoryUserRepository'
+    public: true

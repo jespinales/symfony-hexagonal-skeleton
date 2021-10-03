@@ -2,8 +2,6 @@
 
 namespace App\Domain\User;
 
-use App\Domain\Shared\ValueObjects\Exceptions\InvalidArgumentException;
-use App\Domain\Shared\ValueObjects\Exceptions\StringLengthException;
 
 class UserEmail
 {
@@ -24,15 +22,33 @@ class UserEmail
         return $this->email;
     }
 
+    public function equals(UserEmail $email): bool
+    {
+        return $email->email() === $this->email;
+    }
+
     private function validate(string $email)
     {
         if(strlen($email) > self::MAX_LENGTH){
-            throw new StringLengthException(self::ATTRIBUTE, self::MAX_LENGTH);
+            throw new \InvalidArgumentException(
+                printf(
+                    'The %s entered exceeds the length of %n',
+                    self::ATTRIBUTE,
+                    self::MAX_LENGTH
+                ),
+                422
+            );
         }
 
         $email = filter_var($email, FILTER_VALIDATE_EMAIL);
         if(!$email){
-            throw new InvalidArgumentException(self::ATTRIBUTE);
+            throw new \InvalidArgumentException(
+                printf(
+                    'The %s entered is invalid',
+                    self::ATTRIBUTE
+                ),
+                422
+            );
         }
     }
 
