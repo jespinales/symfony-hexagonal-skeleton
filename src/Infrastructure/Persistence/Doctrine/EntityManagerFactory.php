@@ -44,12 +44,17 @@ class EntityManagerFactory
         self::ensureSchemaFileExists( $schemaFile );
 
         $databaseName = $parameters['dbname'];
+        unset($parameters['dbname']);
         $connection = DriverManager::getConnection($parameters);
-        $schemaManager = new PostgreSqlSchemaManager($connection);
+        $schemaManager = $connection->getSchemaManager();
 
         if ( !self::databaseExists( $databaseName, $schemaManager ) ) {
             $schemaManager->createDatabase( $databaseName );
         }
+
+        $connection->close();
+        $parameters['dbname'] = $databaseName;
+        $connection = DriverManager::getConnection($parameters);
 
         $connection->executeStatement( file_get_contents( realpath( $schemaFile ) ) );
 

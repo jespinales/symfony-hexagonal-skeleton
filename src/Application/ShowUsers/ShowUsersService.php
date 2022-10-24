@@ -2,7 +2,6 @@
 
 namespace App\Application\ShowUsers;
 
-use App\Application\Shared\Model\User\IUserCollectionDataTransformer;
 use App\Domain\User\IUserRepository;
 
 class ShowUsersService
@@ -14,11 +13,12 @@ class ShowUsersService
         $this->userRepository = $userRepository;
     }
 
-    public function execute(): ShowUsersResponse
+    public function execute(ShowUsersRequest $request): ShowUsersResponse
     {
-        $users = $this->userRepository->getAll();
+        $usersPaginated = $this->userRepository
+            ->getPaginated($request->page(), $request->perPage());
 
-        return new ShowUsersResponse($users);
+        return new ShowUsersResponse($usersPaginated);
     }
 
 }

@@ -34,6 +34,13 @@ services:
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
 
+    infrastructure_validations:
+        namespace: App\Infrastructure\Validation\Symfony\
+        resource: '%kernel.project_dir%/../../../Validation/Symfony/**/*Validator.php'
+        tags: [ infrastructure_validations ]
+        autowire: true
+        autoconfigure: true
+
 imports:
-  #- { resource: database/Doctrine/ }
-  - { resource: database/InMemory/ }
+  - { resource: database/Doctrine/ }
+  #- { resource: database/InMemory/ }

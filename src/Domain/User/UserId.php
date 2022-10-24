@@ -23,6 +23,11 @@ class UserId
         return $this->id;
     }
 
+    public function equals(UserId $userId): bool
+    {
+        return $this->id == $userId->id();
+    }
+
     public function __toString(): string
     {
         return $this->id;

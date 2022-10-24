@@ -56,10 +56,9 @@ class TypesSearcher
 
             $namespaces = array_map(
                 static function (string $file) use ($path) {
-                    $fullPath     = "$path/$file";
-                    $splittedPath = explode("/src/", $fullPath);
-
-                    $classWithoutPrefix = str_replace(['.php', '/'], ['', '\\'], $splittedPath[1]);
+                    $fullPath     = realpath("$path/$file");
+                    $splittedPath = preg_split('/(\/|\\\)src(\/|\\\)/', $fullPath);
+                    $classWithoutPrefix = preg_replace(['/\.php/', '/(\/|\\\)/'], ['', '\\'], $splittedPath[1]);
 
                     return "App\\$classWithoutPrefix";
                 },

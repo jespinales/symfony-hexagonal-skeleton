@@ -2,9 +2,11 @@
 
 namespace App\Infrastructure\Delivery\Api\Symfony\Controller\User;
 
+use App\Application\ShowUsers\ShowUsersRequest;
 use App\Application\ShowUsers\ShowUsersService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
 
 class ShowUsersController extends AbstractController
 {
@@ -15,15 +17,19 @@ class ShowUsersController extends AbstractController
         $this->service = $service;
     }
 
-    public function __invoke(): JsonResponse
+    public function __invoke(Request $request): JsonResponse
     {
-        try{
-            $response = $this->service->execute();
+        $page = $request->get('page') ?? 1;
+        $perPage = $request->get('perPage') ?? 15;
+
+        try {
+            $response = $this->service
+                ->execute(new ShowUsersRequest($page, $perPage));
 
             return $this->json([
                 'status' => 'success',
                 'data' => [
-                    'users' => $response->users()
+                    'pagination' => $response->pagination()
                 ]
             ]);
 
@@ -31,8 +37,8 @@ class ShowUsersController extends AbstractController
 
             return $this->json([
                 'status' => 'error',
-                'message' => $e->getMessage()
-            ], $e->getCode() ?? 500);
+                'message' => 'An error occurred.'
+            ], 500);
 
         }
     }

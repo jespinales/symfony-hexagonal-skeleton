@@ -2,28 +2,38 @@
 
 namespace App\Application\ShowUsers;
 
-use App\Domain\User\User;
+
+use App\Infrastructure\Model\Paginate;
 
 class ShowUsersResponse
 {
+    private array $response;
+
     private array $users = [];
 
-    /**
-     * @param User[] $users
-     */
-    public function __construct(array $users)
+    public function __construct(Paginate $usersPaginated)
     {
-        foreach ($users as $user){
+        foreach ($usersPaginated->getData() as $user){
             $this->users[] = [
                 'id' => $user->getId()->id(),
                 'name' => $user->getName()->name(),
                 'email' => $user->getEmail()->email(),
             ];
         }
+
+        $this->response = [
+            'total' => $usersPaginated->getTotal(),
+            'per_page' => $usersPaginated->getPerPage(),
+            'current_page' => $usersPaginated->getCurrentPage(),
+            'last_page' => $usersPaginated->getLastPage(),
+            'from' => $usersPaginated->getFrom(),
+            'to' => $usersPaginated->getTo(),
+            'users' => $this->users
+        ];
     }
 
-    public function users(): array
+    public function pagination(): array
     {
-        return $this->users;
+        return $this->response;
     }
 }

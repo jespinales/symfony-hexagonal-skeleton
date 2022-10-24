@@ -4,6 +4,8 @@ services:
     namespace: App\Infrastructure\Model\
     resource: '../../../../../../../../src/Infrastructure/Model/**/Doctrine/*Repository.php'
     tags: [ infrastructure_repository ]
+    autowire: true
+    autoconfigure: true
 
   Doctrine\ORM\EntityManager:
     factory: [ App\Infrastructure\Persistence\Doctrine\EntityManagerFactory, build ]
@@ -20,5 +22,5 @@ services:
     public: true
 
   App\Domain\User\IUserRepository:
-    alias: 'App\Infrastructure\Model\User\InMemory\DoctrineUserRepository'
+    alias: 'App\Infrastructure\Model\User\Doctrine\DoctrineUserRepository'
     public: true

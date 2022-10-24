@@ -2,18 +2,24 @@
 
 namespace App\Infrastructure\Delivery\Api\Symfony\Controller\User;
 
+use App\Application\ApplicationException;
 use App\Application\DeleteUser\DeleteUserRequest;
 use App\Application\DeleteUser\DeleteUserService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 class DeleteUserController extends AbstractController
 {
     private DeleteUserService $service;
+    private TranslatorInterface $translator;
 
-    public function __construct(DeleteUserService $service)
+    public function __construct(
+        DeleteUserService $service,
+        TranslatorInterface $translator)
     {
         $this->service = $service;
+        $this->translator = $translator;
     }
 
     public function __invoke(Request $request)
@@ -30,10 +36,17 @@ class DeleteUserController extends AbstractController
                 'data' => null
             ]);
 
-        } catch (\Throwable $e) {
+        } catch (ApplicationException $e){
             return $this->json([
-                'message' => $e->getMessage(),
-            ], $e->getCode()?:500);
+                'status' => 'fail',
+                'message' => $this->translator
+                    ->trans($e->getMessage(), [], 'messages')
+            ], $e->getCode());
+        } catch (\Throwable $e){
+            return $this->json([
+                'status' => 'error',
+                'message' => 'An error occurred'
+            ], 500);
         }
     }
 }

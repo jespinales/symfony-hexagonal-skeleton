@@ -1,5 +1,6 @@
-user:
-    resource: 'routes/user.yaml'
-    prefix: '/user'
-    name_prefix: 'user_'
-    trailing_slash_on_root: false
+api:
+    resource: 'routes/api.yaml'
+    prefix: '/api/{_locale}'
+    name_prefix: 'api_'
+    requirements:
+        _locale: 'en|es'

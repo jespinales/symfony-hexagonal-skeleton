@@ -6,6 +6,7 @@ use App\Domain\User\IUserRepository;
 use App\Domain\User\User;
 use App\Domain\User\UserEmail;
 use App\Domain\User\UserId;
+use App\Infrastructure\Model\Paginate;
 use Ramsey\Uuid\Uuid;
 
 class InMemoryUserRepository implements IUserRepository
@@ -17,17 +18,13 @@ class InMemoryUserRepository implements IUserRepository
         return new UserId(Uuid::uuid1());
     }
 
-    public function save(User $user): void
-    {
-        $this->users[$user->getId()->id()] = $user;
-    }
-
     public function findByEmail(UserEmail $email): ?User
     {
         $response = null;
 
+        /** @var User $user */
         foreach ($this->users as $user){
-            if($email->equals( $email )){
+            if($email->equals( $user->getEmail() )){
                 $response = $user;
                 break;
             }
@@ -36,13 +33,44 @@ class InMemoryUserRepository implements IUserRepository
         return $response;
     }
 
-    public function deleteById(UserId $id): void
+    public function findById(UserId $id): ?User
     {
-        unset($this->users[$id->id()]);
+        $response = null;
+
+        /** @var User $user */
+        foreach ($this->users as $user){
+            if( $id->equals( $user->getId()) ){
+                $response = $user;
+                break;
+            }
+        }
+
+        return $response;
     }
 
     public function getAll(): array
     {
         return $this->users;
+    }
+
+    public function getPaginated($page = 1, $perPage = 15): Paginate
+    {
+        $response = [];
+        for ($i=$page*$perPage-$perPage; $i<count($this->users) && $i<$page*$perPage ; $i++){
+            $response[] = $this->users[$i];
+        }
+
+        $totalItems = count($this->users);
+        return new Paginate($page, $perPage, $totalItems, $response);
+    }
+
+    public function save(User $user): void
+    {
+        $this->users[$user->getId()->id()] = $user;
+    }
+
+    public function deleteById(UserId $id): void
+    {
+        unset($this->users[$id->id()]);
     }
 }

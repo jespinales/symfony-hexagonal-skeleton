@@ -25,7 +25,7 @@ class RegisterUserService
             ->findByEmail($email);
 
         if($user){
-            throw new \DomainException('User already exists', 403);
+            throw new UserAlreadyExistsException();
         }
 
         $user = new User(
