@@ -12,8 +12,8 @@ class UserName
 
     public function __construct(string $name)
     {
-        $name = $this->sanitize( trim($name) );
-        $this->validate($name);
+        $this->assertLength($name);
+        $this->assertFormat($name);
         $this->name = $name;
     }
 
@@ -22,17 +22,22 @@ class UserName
         return $this->name;
     }
 
+    public function equals(UserName $userName): bool
+    {
+        return $this->name === $userName->name();
+    }
+
     public function __toString(): string
     {
         return $this->name;
     }
 
-    private function validate(string $name)
+    private function assertLength(string $name)
     {
         if(strlen($name) > self::MAX_LENGTH){
             throw new \InvalidArgumentException(
-                printf(
-                    'The %s entered exceeds the length of %n',
+                sprintf(
+                    'The %s entered exceeds the length of %u.',
                     self::ATTRIBUTE,
                     self::MAX_LENGTH
                 ),
@@ -41,8 +46,16 @@ class UserName
         }
     }
 
-    private function sanitize(string $name): string
+    private function assertFormat(string $name)
     {
-        return filter_var($name, FILTER_SANITIZE_STRING, FILTER_FLAG_ENCODE_LOW);
+        if( !preg_match('/^[a-zA-ZáéíóúÁÉÍÓÚ ]+$/', $name) ){
+            throw new \InvalidArgumentException(
+                sprintf(
+                    "The %s entered hasn't a valid format.",
+                    self::ATTRIBUTE
+                ),
+                422
+            );
+        }
     }
 }
