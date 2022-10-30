@@ -12,8 +12,8 @@ class UserEmail
 
     public function __construct(string $email)
     {
-        $email = $this->sanitize( trim($email) );
-        $this->validate($email);
+        $this->assertLength($email);
+        $this->assertFormat($email);
         $this->email = $email;
     }
 
@@ -27,34 +27,32 @@ class UserEmail
         return $email->email() === $this->email;
     }
 
-    private function validate(string $email)
+    private function assertLength(string $email)
     {
         if(strlen($email) > self::MAX_LENGTH){
             throw new \InvalidArgumentException(
-                printf(
-                    'The %s entered exceeds the length of %n',
+                sprintf(
+                    'The %s entered exceeds the length of %u.',
                     self::ATTRIBUTE,
                     self::MAX_LENGTH
                 ),
                 422
             );
         }
+    }
 
+    private function assertFormat(string $email)
+    {
         $email = filter_var($email, FILTER_VALIDATE_EMAIL);
         if(!$email){
             throw new \InvalidArgumentException(
-                printf(
-                    'The %s entered is invalid',
+                sprintf(
+                    "The %s entered hasn't a valid format.",
                     self::ATTRIBUTE
                 ),
                 422
             );
         }
-    }
-
-    private function sanitize(string $name): string
-    {
-        return filter_var($name, FILTER_SANITIZE_STRING, FILTER_FLAG_ENCODE_LOW);
     }
 
     public function __toString(): string
