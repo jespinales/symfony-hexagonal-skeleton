@@ -14,6 +14,12 @@ class UserIdTest extends TestCase
         $this->uuid = Uuid::uuid1();
     }
 
+    public function shouldCreateAnUserId()
+    {
+        $userId = new UserId($this->uuid);
+        $this->assertInstanceOf(UserId::class, $userId);
+    }
+
     /**
      * @test
      */
