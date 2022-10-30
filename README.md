@@ -19,3 +19,6 @@ End points:
   "email":"Johndoe@outlook.com"
   }'
 - curl --location --request DELETE 'localhost:8000/api/es/user/f81c9f80-478f-11ed-84b8-9828a634c4db'
+
+Tests
+- ./vendor/bin/phpunit tests/.
