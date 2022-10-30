@@ -30,7 +30,7 @@ class UserIdTest extends TestCase
     public function shouldThrowExceptionWithALongUserId()
     {
         $this->expectException(\InvalidArgumentException::class);
-        $this->expectExceptionMessage("The id entered exceeds the length of 36");
+        $this->expectExceptionMessage("The id entered exceeds the length of 36.");
         $this->expectExceptionCode(422);
         $userId = new UserId($this->uuid.'a');
     }
@@ -41,7 +41,7 @@ class UserIdTest extends TestCase
     public function shouldThrowExceptionWithInvalidFormat()
     {
         $this->expectException(\InvalidArgumentException::class);
-        $this->expectExceptionMessage("The id entered is invalid");
+        $this->expectExceptionMessage("The id entered hasn't a valid format.");
         $this->expectExceptionCode(422);
         $userId = new UserId(substr($this->uuid, 0, strlen($this->uuid)-1).' ');
     }
