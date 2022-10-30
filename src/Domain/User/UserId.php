@@ -12,7 +12,6 @@ class UserId
 
     public function __construct(string $id)
     {
-        $id = $this->sanitize( trim($id) );
         $this->validate($id);
 
         $this->id = $id;
@@ -33,17 +32,12 @@ class UserId
         return $this->id;
     }
 
-    public static function sanitize(string $value)
-    {
-        return filter_var($value, FILTER_SANITIZE_STRING, FILTER_FLAG_ENCODE_LOW);
-    }
-
     public function validate(string $id = null)
     {
         if(strlen($id) > self::MAX_LENGTH){
             throw new \InvalidArgumentException(
-                printf(
-                    'The %s entered exceeds the length of %n',
+                sprintf(
+                    'The %s entered exceeds the length of %u',
                     self::ATTRIBUTE,
                     self::MAX_LENGTH
                 ),
@@ -53,7 +47,7 @@ class UserId
 
         if( !preg_match('/\b[0-9a-f]{8}\b-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-\b[0-9a-f]{12}\b/', $id) ){
             throw new \InvalidArgumentException(
-                printf(
+                sprintf(
                     'The %s entered is invalid',
                     self::ATTRIBUTE
                 ),
