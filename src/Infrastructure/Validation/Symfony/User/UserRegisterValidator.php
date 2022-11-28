@@ -27,6 +27,11 @@ class UserRegisterValidator extends RequestValidation
                 new Length(['max' => 100]),
                 new Email(),
             ],
+            'password' => [
+                new NotBlank(),
+                new Type('string'),
+                new Length(['min' => 4 ,'max' => 50]),
+            ],
         ]);
     }
 }

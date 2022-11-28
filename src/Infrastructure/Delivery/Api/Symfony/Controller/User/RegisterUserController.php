@@ -31,13 +31,14 @@ class RegisterUserController extends AbstractController
     {
         $name = $request->get('name');
         $email = $request->get('email');
+        $password = $request->get('password');
 
         try {
             $this->validator
                 ->validate($request->toArray());
 
             $response = $this->service
-                ->execute(new RegisterUserRequest($name, $email)
+                ->execute(new RegisterUserRequest($name, $email, $password)
             );
 
             return $this->json([

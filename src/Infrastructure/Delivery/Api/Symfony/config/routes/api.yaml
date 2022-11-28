@@ -1,5 +1,5 @@
 user:
-  resource: 'user.yaml'
-  prefix: '/user'
-  name_prefix: 'user_'
+  resource: 'users.yaml'
+  prefix: '/users'
+  name_prefix: 'users_'
   trailing_slash_on_root: false

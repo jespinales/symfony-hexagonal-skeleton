@@ -48,7 +48,7 @@ class UserName
 
     private function assertFormat(string $name)
     {
-        if( !preg_match('/^[a-zA-ZáéíóúÁÉÍÓÚ ]+$/', $name) ){
+        if( !preg_match('/^[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+$/', $name) ){
             throw new \InvalidArgumentException(
                 sprintf(
                     "The %s entered hasn't a valid format.",
