@@ -71,6 +71,7 @@ To run tests, run the following command
 | `email`    | `string` | **Required**. User email          |
 | `password` | `string` | **Required**. User password       |
 
+#### Delete user
 
 ```http
   DELETE /api/es/users/{id}
@@ -80,6 +81,7 @@ To run tests, run the following command
 | :--------- | :------- | :----------------------------------------- |
 | `id`       | `string` | **Required**. Id of the user to be removed |
 
+#### Login user
 
 ```http
   POST /api/es/auth/login
