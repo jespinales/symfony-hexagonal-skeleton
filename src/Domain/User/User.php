@@ -7,7 +7,7 @@ class User
     private UserId $id;
     private UserName $name;
     private UserEmail $email;
-    private UserPassword $password;
+    private UserPassword $passwordHash;
 
     public function __construct(
         UserId $id,
@@ -18,7 +18,7 @@ class User
         $this->id = $id;
         $this->name = $name;
         $this->email = $email;
-        $this->password = $password;
+        $this->passwordHash = $password;
     }
 
     public function getId(): UserId
@@ -36,8 +36,8 @@ class User
         return $this->email;
     }
 
-    public function getPassword(): UserPassword
+    public function getPasswordHash(): UserPassword
     {
-        return $this->password;
+        return $this->passwordHash;
     }
 }

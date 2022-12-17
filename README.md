@@ -79,3 +79,13 @@ To run tests, run the following command
 | Parameter  | Type     | Description                                |
 | :--------- | :------- | :----------------------------------------- |
 | `id`       | `string` | **Required**. Id of the user to be removed |
+
+
+```http
+  POST /api/es/auth/login
+```
+
+| Parameter  | Type     | Description                                |
+| :--------- | :------- | :----------------------------------------- |
+| `email`    | `string` | **Required**. Id of the user to be removed |
+| `password` | `string` | **Required**. User password

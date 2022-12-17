@@ -1,0 +1,4 @@
+login:
+  path: /login
+  controller: App\Infrastructure\Delivery\Api\Symfony\Controller\Auth\LoginController
+  methods: POST

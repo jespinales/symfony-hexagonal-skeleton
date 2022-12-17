@@ -3,3 +3,9 @@ user:
   prefix: '/users'
   name_prefix: 'users_'
   trailing_slash_on_root: false
+
+auth:
+  resource: 'auth.yaml'
+  prefix: '/auth'
+  name_prefix: 'auth_'
+  trailing_slash_on_root: false

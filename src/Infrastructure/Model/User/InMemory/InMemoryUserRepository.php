@@ -55,10 +55,7 @@ class InMemoryUserRepository implements IUserRepository
 
     public function getPaginated($page = 1, $perPage = 15): Paginate
     {
-        $response = [];
-        for ($i=$page*$perPage-$perPage; $i<count($this->users) && $i<$page*$perPage ; $i++){
-            $response[] = $this->users[$i];
-        }
+        $response = array_slice($this->users, $page*$perPage-$perPage, $page*$perPage);
 
         $totalItems = count($this->users);
         return new Paginate($page, $perPage, $totalItems, $response);

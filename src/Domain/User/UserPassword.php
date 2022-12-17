@@ -11,22 +11,27 @@ class UserPassword
 
     private string $hash;
 
-    private function __construct(string $value, bool $isHash = false)
+    private function __construct(
+        string           $value,
+        bool             $isHash,
+        IPasswordHashing $passwordHashing = null)
     {
-        if($isHash){
+        if ($isHash) {
             $this->assertMaxHashLength($value);
         } else {
             $this->assertMinLength($value);
             $this->assertMaxLength($value);
-            $value = self::passwordHashing($value);
+            $value = $passwordHashing->passwordHashing($value);
         }
 
         $this->hash = $value;
     }
 
-    public static function fromPassword(string $password): self
+    public static function fromPlaneText(
+        string           $password,
+        IPasswordHashing $passwordHashing): self
     {
-        return new self($password);
+        return new self($password, false, $passwordHashing);
     }
 
     public static function fromHash(string $hash): self
@@ -46,7 +51,7 @@ class UserPassword
 
     private function assertMaxLength(string $password)
     {
-        if(strlen($password) > self::MAX_LENGTH){
+        if (strlen($password) > self::MAX_LENGTH) {
             throw new \InvalidArgumentException(
                 sprintf(
                     'The %s entered exceeds the length of %u.',
@@ -60,7 +65,7 @@ class UserPassword
 
     private function assertMinLength(string $password)
     {
-        if(strlen($password) < self::MIN_LENGTH){
+        if (strlen($password) < self::MIN_LENGTH) {
             throw new \InvalidArgumentException(
                 sprintf(
                     'The entered %s must have a minimum of %u characters.',
@@ -74,7 +79,7 @@ class UserPassword
 
     private function assertMaxHashLength(string $hash)
     {
-        if(strlen($hash) > self::MAX_HASH_LENGTH){
+        if (strlen($hash) > self::MAX_HASH_LENGTH) {
             throw new \InvalidArgumentException(
                 sprintf(
                     'The hash exceeds the length of %u.',
@@ -83,10 +88,5 @@ class UserPassword
                 422
             );
         }
-    }
-
-    private static function passwordHashing(string $password): string
-    {
-        return password_hash($password, PASSWORD_BCRYPT);
     }
 }

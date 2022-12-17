@@ -41,6 +41,17 @@ services:
         autowire: true
         autoconfigure: true
 
+    infrastructure_hashing:
+        namespace: App\Infrastructure\Auth\Hashing\
+        resource: '%kernel.project_dir%/../../../Auth/Hashing/*Hashing.php'
+        tags: [ infrastructure_hashing ]
+        autowire: true
+        autoconfigure: true
+
+    App\Domain\User\IPasswordHashing:
+        alias: 'App\Infrastructure\Auth\Hashing\BasicPasswordHashing'
+        public: true
+
 imports:
   - { resource: database/Doctrine/ }
   #- { resource: database/InMemory/ }

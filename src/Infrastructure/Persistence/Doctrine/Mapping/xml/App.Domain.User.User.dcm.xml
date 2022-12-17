@@ -12,7 +12,7 @@
         </id>
         <field name="name" type="user_name" column="name" length="50"/>
         <field name="email" type="user_email" column="email" length="100"/>
-        <field name="password" type="user_password" column="password" length="100"/>
+        <field name="passwordHash" type="user_password" column="password" length="100"/>
 
     </entity>
 </doctrine-mapping>
